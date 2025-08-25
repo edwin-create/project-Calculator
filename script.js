@@ -2,24 +2,24 @@ let val1;
 let val2;
 let operator;
 
-const add = function(val1, val2) {
+function add(val1, val2) {
     return val1 + val2;
       
   };
   
-  const subtract = function(val1, val2) {
+  function subtract(val1, val2) {
     return val1 - val2;
       
   };
   
-  const multiply = function(arr) {
+  function multiply(arr) {
     return  arr.reduce((acc, val) => acc * val, 1);
   
   };
   
-    const divide = function(val1, val2) {
+    function divide(val1, val2) {
       if (val2 === 0) {
-        return "Error: Division by zero";
+        return "Error";
       } else {
         return val1 / val2;
       }
@@ -27,16 +27,16 @@ const add = function(val1, val2) {
 
 
 function operate(val1, val2, operator) {
-    if (operator === "sum") {
+    if (operator === "add") {
       return add(val1, val2);
     } 
-    else if (operator === "minus") {
+    else if (operator === "subtract") {
       return subtract(val1, val2);
     }
-    else if (operator === "product") {
+    else if (operator === "multiply") {
       return multiply([val1, val2]);
     } 
-    else if (operator === 'quotient') {
+    else if (operator === 'divide') {
         return divide(val1, val2);
       }
     else {
@@ -44,3 +44,68 @@ function operate(val1, val2, operator) {
     }
 }
 
+const displayPanel = document.querySelector("#userInput");
+const numberButtons = document.querySelectorAll(".num");
+numberButtons.forEach((numberButton) => {
+    numberButton.addEventListener("click", () => {
+        displayPanel.value += numberButton.id;
+    });
+});
+
+const addButtom = document.querySelector("#add");
+addButtom.addEventListener("click", () => {
+    displayPanel.value += "+";
+}); 
+const subtractButtom = document.querySelector("#subtract");
+subtractButtom.addEventListener("click", () => {
+    displayPanel.value += "-";
+}); 
+const multiplyButtom = document.querySelector("#multiply");
+multiplyButtom.addEventListener("click", () => {
+    displayPanel.value += "*";
+}); 
+const divideButtom = document.querySelector("#divide");
+divideButtom.addEventListener("click", () => {
+    displayPanel.value += "/";
+});     
+
+const clearButton = document.querySelector("#clearButton");
+clearButton.addEventListener("click", () => {
+    displayPanel.value = "";
+});     
+
+const deleteButton = document.querySelector("#delete");
+deleteButton.addEventListener("click", () => {
+    displayPanel.value = displayPanel.value.slice(0, -1);
+}); 
+
+equalsButton = document.querySelector("#equals");
+equalsButton.addEventListener("click", () => {
+let expression = displayPanel.value;
+    if (expression.includes('+')){
+        operator = "add";
+        val1=parseFloat(expression.split('+')[0]);
+        val2=parseFloat(expression.split('+')[1]);
+    expression = add(val1, val2);
+}
+else if (expression.includes('-')){
+        operator = "subtract";
+        val1=parseFloat(expression.split('-')[0]);
+        val2=parseFloat(expression.split('-')[1]);
+    expression = subtract(val1, val2);
+}
+else if (expression.includes('*')){
+        operator = "multiply";
+        val1=parseFloat(expression.split('*')[0]);
+        val2=parseFloat(expression.split('*')[1]);
+    expression = multiply([val1, val2]);
+}
+else if (expression.includes('/')){
+        operator = "divide";
+        val1=parseFloat(expression.split('/')[0]);
+        val2=parseFloat(expression.split('/')[1]);
+    expression = divide(val1, val2);
+}
+displayPanel.value = expression;
+
+});
