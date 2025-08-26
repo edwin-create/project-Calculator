@@ -59,35 +59,49 @@ numberButtons.forEach((numberButton) => {
     
   });
 
-const addButtom = document.querySelector("#add");
-addButtom.addEventListener("click", () => {
-  if (
-    displayPanel.value.includes('+') ||
-    displayPanel.value.includes('-') ||
-    displayPanel.value.includes('*') ||
-    displayPanel.value.includes('/')
-  ) {
-    return; // Prevent adding another operator
-  }
-
-  displayPanel.value += "+";
-  clearDisplay = false;
-});
-const subtractButtom = document.querySelector("#subtract");
-subtractButtom.addEventListener("click", () => {
-    displayPanel.value += "-";
-    clearDisplay = false;
-}); 
-const multiplyButtom = document.querySelector("#multiply");
-multiplyButtom.addEventListener("click", () => {
-    displayPanel.value += "*";
-    clearDisplay = false;
-}); 
-const divideButtom = document.querySelector("#divide");
-divideButtom.addEventListener("click", () => {
-    displayPanel.value += "/";
-    clearDisplay = false;
-});     
+  const operatorButtons = document.querySelectorAll('#add, #subtract, #multiply, #divide');
+  operatorButtons.forEach((operatorButton) => {
+    operatorButton.addEventListener('click', () => {
+      const hasOperator = displayPanel.value.includes('+') || displayPanel.value.includes('-') || displayPanel.value.includes('*') || displayPanel.value.includes('/');
+      if (hasOperator) {
+        // If an operator exists, it's time to evaluate the current expression
+        let expression = displayPanel.value;
+        let result;
+        if (expression.includes('+')) {
+          operator = "add";
+          val1 = parseFloat(expression.split('+')[0]);
+          val2 = parseFloat(expression.split('+')[1]);
+          result = operate(val1, val2, operator);
+      } else if (expression.includes('-')) {
+          operator = "subtract";
+          val1 = parseFloat(expression.split('-')[0]);
+          val2 = parseFloat(expression.split('-')[1]);
+          result = operate(val1, val2, operator);
+      } else if (expression.includes('*')) {
+          operator = "multiply";
+          val1 = parseFloat(expression.split('*')[0]);
+          val2 = parseFloat(expression.split('*')[1]);
+          result = operate(val1, val2, operator);
+      } else if (expression.includes('/')) {
+          operator = "divide";
+          val1 = parseFloat(expression.split('/')[0]);
+          val2 = parseFloat(expression.split('/')[1]);
+          result = operate(val1, val2, operator);
+      }
+         // Update the display with the result and the new operator
+         if (typeof result === 'number') {
+          displayPanel.value = parseFloat(result.toFixed(2));
+        } else {
+          displayPanel.value = result;
+        }
+        displayPanel.value += operatorButton.textContent;
+      } else {
+        // If no operator exists, just add the new one to the display
+        displayPanel.value += operatorButton.textContent;
+      }
+      clearDisplay = false;
+    });
+  });     
 
 const clearButton = document.querySelector("#clearButton");
 clearButton.addEventListener("click", () => {
