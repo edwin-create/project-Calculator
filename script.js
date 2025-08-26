@@ -106,6 +106,6 @@ else if (expression.includes('/')){
         val2=parseFloat(expression.split('/')[1]);
     expression = divide(val1, val2);
 }
-displayPanel.value = expression;
+displayPanel.value = expression.toFixed(2);
 
 });
