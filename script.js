@@ -1,6 +1,7 @@
 let val1;
 let val2;
 let operator;
+let clearDisplay= true;
 
 function add(val1, val2) {
     return val1 + val2;
@@ -19,7 +20,7 @@ function add(val1, val2) {
   
     function divide(val1, val2) {
       if (val2 === 0) {
-        return "Error";
+        return "Oops, LOL!";
       } else {
         return val1 / val2;
       }
@@ -42,31 +43,41 @@ function operate(val1, val2, operator) {
     else {
       return "Invalid operator";
     }
+    
 }
 
 const displayPanel = document.querySelector("#userInput");
 const numberButtons = document.querySelectorAll(".num");
 numberButtons.forEach((numberButton) => {
     numberButton.addEventListener("click", () => {
-        displayPanel.value += numberButton.id;
-    });
-});
+       if (clearDisplay) {
+        displayPanel.value = '';
+        clearDisplay = false;
+       }
+       displayPanel.value += numberButton.id;
+      });
+    
+  });
 
 const addButtom = document.querySelector("#add");
 addButtom.addEventListener("click", () => {
     displayPanel.value += "+";
+    clearDisplay = false;
 }); 
 const subtractButtom = document.querySelector("#subtract");
 subtractButtom.addEventListener("click", () => {
     displayPanel.value += "-";
+    clearDisplay = false;
 }); 
 const multiplyButtom = document.querySelector("#multiply");
 multiplyButtom.addEventListener("click", () => {
     displayPanel.value += "*";
+    clearDisplay = false;
 }); 
 const divideButtom = document.querySelector("#divide");
 divideButtom.addEventListener("click", () => {
     displayPanel.value += "/";
+    clearDisplay = false;
 });     
 
 const clearButton = document.querySelector("#clearButton");
@@ -87,25 +98,33 @@ let expression = displayPanel.value;
         val1=parseFloat(expression.split('+')[0]);
         val2=parseFloat(expression.split('+')[1]);
     expression = add(val1, val2);
+    clearDisplay = true;
 }
 else if (expression.includes('-')){
         operator = "subtract";
         val1=parseFloat(expression.split('-')[0]);
         val2=parseFloat(expression.split('-')[1]);
     expression = subtract(val1, val2);
+    clearDisplay = true;
 }
 else if (expression.includes('*')){
         operator = "multiply";
         val1=parseFloat(expression.split('*')[0]);
         val2=parseFloat(expression.split('*')[1]);
     expression = multiply([val1, val2]);
+    clearDisplay = true;
 }
 else if (expression.includes('/')){
         operator = "divide";
         val1=parseFloat(expression.split('/')[0]);
         val2=parseFloat(expression.split('/')[1]);
     expression = divide(val1, val2);
+    clearDisplay = true;
 }
-displayPanel.value = expression.toFixed(2);
-
+if (typeof expression === 'number'){
+  displayPanel.value = parseFloat(expression.toFixed(2));
+}
+else {
+  displayPanel.value = expression;
+}
 });
