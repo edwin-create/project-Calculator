@@ -61,9 +61,18 @@ numberButtons.forEach((numberButton) => {
 
 const addButtom = document.querySelector("#add");
 addButtom.addEventListener("click", () => {
-    displayPanel.value += "+";
-    clearDisplay = false;
-}); 
+  if (
+    displayPanel.value.includes('+') ||
+    displayPanel.value.includes('-') ||
+    displayPanel.value.includes('*') ||
+    displayPanel.value.includes('/')
+  ) {
+    return; // Prevent adding another operator
+  }
+
+  displayPanel.value += "+";
+  clearDisplay = false;
+});
 const subtractButtom = document.querySelector("#subtract");
 subtractButtom.addEventListener("click", () => {
     displayPanel.value += "-";
@@ -127,4 +136,12 @@ if (typeof expression === 'number'){
 else {
   displayPanel.value = expression;
 }
+});
+
+const enterKey = document.querySelector('#equals');
+
+document.addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') {
+    enterKey.click(); // Use the correct variable name
+  }
 });
