@@ -94,3 +94,7 @@ body{
     cursor: pointer;
     color: yellow;
 }
+#clearButton:hover{
+    cursor: pointer;
+    color: red;
+}
