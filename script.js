@@ -62,10 +62,22 @@ numberButtons.forEach((numberButton) => {
   const operatorButtons = document.querySelectorAll('#add, #subtract, #multiply, #divide');
   operatorButtons.forEach((operatorButton) => {
     operatorButton.addEventListener('click', () => {
+
       const lastChar = displayPanel.value.slice(-1);
       const isLastCharOperator = ['+', '-', '*', '/'].includes(lastChar);
       const hasOperator = displayPanel.value.includes('+') || displayPanel.value.includes('-') || displayPanel.value.includes('*') || displayPanel.value.includes('/');
-      if (hasOperator) {
+      
+      if (lastChar === '') {
+        // Do nothing if display is empty and user presses operator
+        return;
+      }
+    
+    else if(isLastCharOperator) {
+        // Replace the last operator with the new one
+        displayPanel.value = displayPanel.value.slice(0, -1) + operatorButton.textContent;
+      }
+
+    else if (hasOperator) {
         // If an operator exists, it's time to evaluate the current expression
         let expression = displayPanel.value;
         let result;
@@ -92,12 +104,12 @@ numberButtons.forEach((numberButton) => {
       }
          // Update the display with the result and the new operator
          if (typeof result === 'number') {
-          displayPanel.value = parseFloat(result.toFixed(2));
+          displayPanel.value = parseFloat(result.toFixed(2)) + operatorButton.textContent;
         } else {
           displayPanel.value = result;
         }
       }
-      displayPanel.value += operatorButton.textContent; 
+   else  { displayPanel.value += operatorButton.textContent; }
       clearDisplay = false;
     });
   });    
@@ -164,3 +176,5 @@ document.addEventListener('keyup', function(event) {
     enterKey.click(); // Use the correct variable name
   }
 });
+
+
