@@ -62,6 +62,8 @@ numberButtons.forEach((numberButton) => {
   const operatorButtons = document.querySelectorAll('#add, #subtract, #multiply, #divide');
   operatorButtons.forEach((operatorButton) => {
     operatorButton.addEventListener('click', () => {
+      const lastChar = displayPanel.value.slice(-1);
+      const isLastCharOperator = ['+', '-', '*', '/'].includes(lastChar);
       const hasOperator = displayPanel.value.includes('+') || displayPanel.value.includes('-') || displayPanel.value.includes('*') || displayPanel.value.includes('/');
       if (hasOperator) {
         // If an operator exists, it's time to evaluate the current expression
@@ -94,14 +96,11 @@ numberButtons.forEach((numberButton) => {
         } else {
           displayPanel.value = result;
         }
-        displayPanel.value += operatorButton.textContent;
-      } else {
-        // If no operator exists, just add the new one to the display
-        displayPanel.value += operatorButton.textContent;
       }
+      displayPanel.value += operatorButton.textContent; 
       clearDisplay = false;
     });
-  });     
+  });    
 
 const clearButton = document.querySelector("#clearButton");
 clearButton.addEventListener("click", () => {
@@ -153,6 +152,12 @@ else {
 });
 
 const enterKey = document.querySelector('#equals');
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // Prevent default action like form submission
+  }
+});
 
 document.addEventListener('keyup', function(event) {
   if (event.key === 'Enter') {

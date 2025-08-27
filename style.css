@@ -61,7 +61,7 @@ body{
 }
 
 #equals:active, #delete:active, .num:active, #add:active, #subtract:active, #multiply:active, #divide:active, #clearButton:active{
-    background-color: green;
+    background-color: white;
     color: black;
 }
 
@@ -89,4 +89,8 @@ body{
     font-size: 1.5em;
     box-sizing: border-box;
     padding: 10px;
+}
+.num:hover{
+    cursor: pointer;
+    color: yellow;
 }
