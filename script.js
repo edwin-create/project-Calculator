@@ -76,7 +76,16 @@ numberButtons.forEach((numberButton) => {
         { 
           return;
         }
-        else if (displayPanel.value.length > 1 &&displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '+') {
+        else if (displayPanel.value.length > 1 && displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '+' && !isLastCharOperator) {
+          displayPanel.value += operatorButton.textContent;
+        }
+         else if (displayPanel.value.length > 1 && displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '*' && !isLastCharOperator) {
+          displayPanel.value += operatorButton.textContent;
+        } 
+        else if (displayPanel.value.length > 1 && displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '/' && !isLastCharOperator) {
+          displayPanel.value += operatorButton.textContent;
+        }
+          else if (displayPanel.value.length > 1 && displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '-' && !isLastCharOperator) {
           displayPanel.value += operatorButton.textContent;
         }
     else if(isLastCharOperator) {
@@ -93,11 +102,6 @@ numberButtons.forEach((numberButton) => {
           val1 = parseFloat(expression.split('+')[0]);
           val2 = parseFloat(expression.split('+')[1]);
           result = operate(val1, val2, operator);
-      } else if (expression.includes('-')) {
-          operator = "subtract";
-          val1 = parseFloat(expression.split('-')[0]);
-          val2 = parseFloat(expression.split('-')[1]);
-          result = operate(val1, val2, operator);
       } else if (expression.includes('*')) {
           operator = "multiply";
           val1 = parseFloat(expression.split('*')[0]);
@@ -108,7 +112,12 @@ numberButtons.forEach((numberButton) => {
           val1 = parseFloat(expression.split('/')[0]);
           val2 = parseFloat(expression.split('/')[1]);
           result = operate(val1, val2, operator);
-      }
+      } else if (expression.includes('-')) {
+          operator = "subtract";
+          val1 = parseFloat(expression.split('-')[0]);
+          val2 = parseFloat(expression.split('-')[1]);
+          result = operate(val1, val2, operator);
+        }
          // Update the display with the result and the new operator
          if (typeof result === 'number') {
           displayPanel.value = parseFloat(result.toFixed(2)) + operatorButton.textContent;
@@ -134,12 +143,35 @@ deleteButton.addEventListener("click", () => {
 equalsButton = document.querySelector("#equals");
 equalsButton.addEventListener("click", () => {
 let expression = displayPanel.value;
+let minusOperatorIndex = expression.lastIndexOf('-');
+
     if (expression.includes('+')){
         operator = "add";
         val1=parseFloat(expression.split('+')[0]);
         val2=parseFloat(expression.split('+')[1]);
     expression = add(val1, val2);
     clearDisplay = true;
+}
+else if(expression.includes('*') && expression.includes('-')){
+  operator = "multiply";
+        val1=parseFloat(expression.split('*')[0]);
+        val2=parseFloat(expression.split('*')[1]);
+    expression = multiply([val1, val2]);
+    clearDisplay = true;
+}
+else if (expression.includes('/') && expression.includes('-')){
+  operator = "divide";
+        val1=parseFloat(expression.split('/')[0]);
+        val2=parseFloat(expression.split('/')[1]);
+    expression = divide(val1, val2);
+    clearDisplay = true;
+}
+else if(minusOperatorIndex > 0){
+  operator = "subtract";
+  val1 = parseFloat(expression.slice(0, minusOperatorIndex));
+  val2 = parseFloat(expression.slice(minusOperatorIndex + 1));
+expression = subtract(val1, val2);
+ clearDisplay = true;
 }
 else if (expression.includes('-')){
         operator = "subtract";
