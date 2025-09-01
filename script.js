@@ -62,15 +62,23 @@ numberButtons.forEach((numberButton) => {
   const operatorButtons = document.querySelectorAll('#add, #subtract, #multiply, #divide');
   operatorButtons.forEach((operatorButton) => {
     operatorButton.addEventListener('click', () => {
-
+ let result;
       const lastChar = displayPanel.value.slice(-1);
       const isLastCharOperator = ['+', '-', '*', '/'].includes(lastChar);
       const hasOperator = displayPanel.value.includes('+') || displayPanel.value.includes('-') || displayPanel.value.includes('*') || displayPanel.value.includes('/');
       
-      if (lastChar === '') {
-        // Do nothing if display is empty and user presses operator
-        return;
+ 
+    // Allow negative sign at the start
+      if (displayPanel.value === '' && operatorButton.textContent === '-') {
+        displayPanel.value += operatorButton.textContent;
       }
+      else if (displayPanel.value === '' && operatorButton.textContent === '*' || displayPanel.value === '' && operatorButton.textContent === '/' || displayPanel.value === '' && operatorButton.textContent === '+') 
+        { 
+          return;
+        }
+        else if(displayPanel.value.slice(0,1) === '-' && operatorButton.textContent === '*'){
+          displayPanel.value += operatorButton.textContent;
+        }
     
     else if(isLastCharOperator) {
         // Replace the last operator with the new one
