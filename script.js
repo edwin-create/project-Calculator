@@ -76,7 +76,7 @@ numberButtons.forEach((numberButton) => {
         { 
           return;
         }
-        else if (displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '+') {
+        else if (displayPanel.value.length > 1 &&displayPanel.value.slice(0,1)=== '-' && operatorButton.textContent === '+') {
           displayPanel.value += operatorButton.textContent;
         }
     else if(isLastCharOperator) {
